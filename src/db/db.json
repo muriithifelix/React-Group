@@ -1,0 +1,13 @@
+{
+  "products": [
+    { "id": 1, "name": "Trail Runner Backpack 20L", "category": "Bags", "price": 59, "stock": 12, "image": "https://picsum.photos/seed/backpack/600/450", "description": "Light, water-resistant daypack with a padded laptop sleeve and hip belt." },
+    { "id": 2, "name": "Insulated Steel Bottle", "category": "Kitchen", "price": 24, "stock": 40, "image": "https://picsum.photos/seed/bottle/600/450", "description": "Keeps drinks cold for 24 hours or hot for 12. Fits most cup holders." },
+    { "id": 3, "name": "Wireless Over-Ear Headphones", "category": "Electronics", "price": 129, "stock": 8, "image": "https://picsum.photos/seed/headphones/600/450", "description": "Active noise cancelling, 35-hour battery, USB-C fast charge." },
+    { "id": 4, "name": "Cotton Everyday Tee", "category": "Clothing", "price": 18, "stock": 60, "image": "https://picsum.photos/seed/tee/600/450", "description": "Midweight organic cotton in a relaxed fit. Machine washable." },
+    { "id": 5, "name": "Ceramic Pour-Over Set", "category": "Kitchen", "price": 42, "stock": 15, "image": "https://picsum.photos/seed/coffee/600/450", "description": "Dripper, server and two cups. Makes clean, bright coffee." },
+    { "id": 6, "name": "Portable Bluetooth Speaker", "category": "Electronics", "price": 79, "stock": 0, "image": "https://picsum.photos/seed/speaker/600/450", "description": "Waterproof speaker with 360-degree sound and 15-hour playtime." },
+    { "id": 7, "name": "Canvas Weekender Bag", "category": "Bags", "price": 85, "stock": 6, "image": "https://picsum.photos/seed/weekender/600/450", "description": "Waxed canvas with leather handles and a shoe compartment." },
+    { "id": 8, "name": "Quilted Winter Jacket", "category": "Clothing", "price": 110, "stock": 10, "image": "https://picsum.photos/seed/jacket/600/450", "description": "Recycled-fill insulation, packable into its own pocket." }
+  ],
+  "orders": []
+}
