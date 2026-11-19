@@ -1,1 +1,202 @@
-@import 'tailwindcss';
+/* ==========================================================================
+   index.css  |  Tailwind entry point + shared design system
+   Location:   src/index.css  (imported once in index.jsx)
+   Owner:      Member 1. Other members add classes only via PR.
+
+   Rule of thumb: use plain Tailwind utilities inside components first.
+   Only add a class here when the same utility combo is repeated in 3+ places.
+   ========================================================================== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* ==========================================================================
+   1. BASE: design tokens + element defaults
+   ========================================================================== */
+@layer base {
+  :root {
+    /* Brand tokens (reference with var(--token) or mirror in tailwind.config.js) */
+    --color-brand: #0f766e;        /* teal-700: primary actions, links */
+    --color-brand-dark: #115e59;   /* teal-800: hover */
+    --color-ink: #1e293b;          /* slate-800: body text */
+    --color-muted: #64748b;        /* slate-500: secondary text */
+    --color-surface: #ffffff;
+    --color-page: #f8fafc;         /* slate-50: page background */
+    --color-line: #e2e8f0;         /* slate-200: borders */
+    --color-sale: #b45309;         /* amber-700: sale / low stock */
+    --color-danger: #be123c;       /* rose-700: errors, delete */
+    --color-success: #15803d;      /* green-700: confirmations */
+
+    --header-height: 4rem;
+    --radius-control: 0.5rem;      /* buttons, inputs */
+    --radius-card: 0.75rem;        /* cards, panels */
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+  }
+
+  /* Type scale */
+  h1 { @apply text-3xl font-bold tracking-tight text-slate-900 md:text-4xl; }
+  h2 { @apply text-2xl font-semibold tracking-tight text-slate-900; }
+  h3 { @apply text-lg font-semibold text-slate-900; }
+  p  { @apply max-w-prose; }
+  a  { @apply text-teal-700 hover:text-teal-800; }
+
+  img { @apply block max-w-full; }
+
+  /* Keyboard focus: visible everywhere */
+  :focus-visible {
+    @apply outline-none ring-2 ring-teal-600 ring-offset-2;
+  }
+
+  /* Respect users who turn animations off */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+
+/* ==========================================================================
+   2. COMPONENTS: reusable classes shared across members
+   ========================================================================== */
+@layer components {
+
+  /* ---- Layout ---------------------------------------------------------- */
+  .page-container {            /* wrap every page's content */
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+  .page-section {              /* vertical rhythm between page blocks */
+    @apply py-8 md:py-12;
+  }
+  .page-title {                /* top heading of each page */
+    @apply mb-6;
+  }
+
+  /* Responsive product grid: 1 col mobile, 2 tablet, 3-4 desktop */
+  .product-grid {
+    @apply grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
+
+  /* Catalog: filters stack on mobile, sidebar on desktop */
+  .catalog-layout {
+    @apply flex flex-col gap-6 lg:flex-row;
+  }
+  .catalog-sidebar {
+    @apply w-full shrink-0 lg:w-64;
+  }
+
+  /* Cart: items + summary side by side on desktop */
+  .cart-layout {
+    @apply grid grid-cols-1 gap-8 lg:grid-cols-3;
+  }
+
+  /* ---- Header / navigation (Member 5: Header, Footer) ------------------ */
+  .site-header {
+    @apply sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur;
+    min-height: var(--header-height);
+  }
+  .nav-link {
+    @apply rounded-md px-3 py-2 text-sm font-medium text-slate-600
+           transition-colors hover:bg-slate-100 hover:text-slate-900;
+  }
+  .nav-link-active {           /* add alongside nav-link for the current route */
+    @apply bg-teal-50 text-teal-800;
+  }
+  .site-footer {
+    @apply mt-12 border-t border-slate-200 bg-white py-8 text-sm text-slate-500;
+  }
+
+  /* ---- Buttons --------------------------------------------------------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2
+           text-sm font-semibold transition-colors
+           disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary   { @apply btn bg-teal-700 text-white hover:bg-teal-800; }
+  .btn-secondary { @apply btn border border-slate-300 bg-white text-slate-700 hover:bg-slate-50; }
+  .btn-danger    { @apply btn bg-rose-700 text-white hover:bg-rose-800; }
+  .btn-ghost     { @apply btn text-slate-600 hover:bg-slate-100; }
+  .btn-block     { @apply w-full; }
+  .btn-sm        { @apply px-3 py-1.5 text-xs; }
+
+  /* ---- Forms (ProductForm, SearchBar, CategoryFilter) ------------------ */
+  .form-group  { @apply mb-4 flex flex-col gap-1; }
+  .form-label  { @apply text-sm font-medium text-slate-700; }
+  .form-input {
+    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2
+           text-sm text-slate-900 placeholder:text-slate-400
+           focus:border-teal-600 focus:ring-1 focus:ring-teal-600;
+  }
+  .form-input-error { @apply border-rose-600 focus:border-rose-600 focus:ring-rose-600; }
+  .form-error       { @apply text-xs font-medium text-rose-700; }
+  .form-hint        { @apply text-xs text-slate-500; }
+
+  /* ---- Cards (ProductCard, CartItem, CartSummary) ---------------------- */
+  .card {
+    @apply overflow-hidden rounded-xl border border-slate-200 bg-white;
+  }
+  .card-hover {                /* use only on clickable cards */
+    @apply transition-shadow hover:shadow-md;
+  }
+  .card-body { @apply p-4; }
+
+  /* ProductCard pieces */
+  .product-image {
+    @apply aspect-square w-full bg-slate-100 object-cover;
+  }
+  .product-name  { @apply line-clamp-2 text-base font-semibold text-slate-900; }
+  .product-price { @apply text-lg font-bold text-slate-900; }
+
+  /* ---- Badges ---------------------------------------------------------- */
+  .badge         { @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium; }
+  .badge-sale    { @apply badge bg-amber-100 text-amber-800; }
+  .badge-stock   { @apply badge bg-green-100 text-green-800; }
+  .badge-out     { @apply badge bg-slate-200 text-slate-700; }
+
+  /* ---- Cart quantity control (CartItem) -------------------------------- */
+  .qty-control { @apply inline-flex items-center rounded-lg border border-slate-300; }
+  .qty-btn {
+    @apply h-8 w-8 text-slate-700 transition-colors hover:bg-slate-100
+           disabled:opacity-40;
+  }
+  .qty-value { @apply min-w-[2rem] text-center text-sm font-medium; }
+
+  /* ---- Feedback: loader, alerts, empty states -------------------------- */
+  .spinner {                   /* used by Loader.jsx */
+    @apply h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-teal-700;
+  }
+  .alert         { @apply rounded-lg border px-4 py-3 text-sm; }
+  .alert-error   { @apply alert border-rose-200 bg-rose-50 text-rose-800; }
+  .alert-success { @apply alert border-green-200 bg-green-50 text-green-800; }
+  .empty-state {
+    @apply flex flex-col items-center justify-center gap-3 rounded-xl border
+           border-dashed border-slate-300 bg-white px-6 py-16 text-center text-slate-500;
+  }
+}
+
+
+/* ==========================================================================
+   3. UTILITIES: small helpers not covered by Tailwind
+   ========================================================================== */
+@layer utilities {
+  .visually-hidden {           /* screen-reader-only text */
+    @apply sr-only;
+  }
+  .text-balance { text-wrap: balance; }
+  .min-h-screen-safe { min-height: 100dvh; }  /* mobile browser toolbar safe */
+}
