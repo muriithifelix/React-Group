@@ -1,7 +1,11 @@
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft, PlusCircle } from "lucide-react";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  ArrowLeft,
+  PlusCircle,
+  ShoppingCart,
+} from "lucide-react";
 
 const API_URL = "http://localhost:3000/products";
 
@@ -14,6 +18,7 @@ function AddProductPage() {
     description: "",
     category: "",
     image: "",
+    stock: "10",
   });
 
   const [loading, setLoading] = useState(false);
@@ -36,21 +41,34 @@ function AddProductPage() {
       !formData.title.trim() ||
       !formData.price ||
       !formData.description.trim() ||
-      !formData.category.trim()
+      !formData.category.trim() ||
+      !formData.stock
     ) {
       setError("Please fill in all required fields.");
       return;
     }
 
-    if (Number(formData.price) <= 0) {
+    if (!Number.isFinite(Number(formData.price)) ||
+        Number(formData.price) <= 0) {
       setError("Price must be greater than zero.");
       return;
     }
 
+    if (
+      !Number.isInteger(Number(formData.stock)) ||
+      Number(formData.stock) < 0
+    ) {
+      setError("Stock must be a whole number of zero or more.");
+      return;
+    }
+
     const newProduct = {
-      ...formData,
+      title: formData.title.trim(),
       price: Number(formData.price),
+      description: formData.description.trim(),
+      category: formData.category,
       image: formData.image.trim(),
+      stock: Number(formData.stock),
     };
 
     try {
@@ -72,7 +90,10 @@ function AddProductPage() {
 
       navigate("/catalog");
     } catch (err) {
-      setError(err.message || "Something went wrong.");
+      setError(
+        err.message ||
+        "Unable to add product. Check that your backend is running."
+      );
     } finally {
       setLoading(false);
     }
@@ -82,19 +103,33 @@ function AddProductPage() {
     <div className="min-h-screen bg-gray-50 px-4 py-10">
       <div className="mx-auto max-w-2xl">
 
-        <button
-          type="button"
-          onClick={() => navigate(-1)}
-          className="mb-6 flex items-center gap-2 text-violet-700 hover:text-violet-900"
-        >
-          <ArrowLeft size={18} />
-          Go Back
-        </button>
+        {/* Navigation */}
+        <div className="mb-6 flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 font-medium text-violet-700 transition hover:text-violet-900"
+          >
+            <ArrowLeft size={18} />
+            Go Back
+          </button>
+
+          <Link
+            to="/cart"
+            className="flex items-center gap-2 rounded-lg bg-violet-100 px-4 py-2 text-violet-700 transition hover:bg-violet-200"
+          >
+            <ShoppingCart size={18} />
+            Cart
+          </Link>
+        </div>
 
         <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+
+          {/* Heading */}
           <div className="mb-8">
             <div className="mb-3 flex items-center gap-3">
               <PlusCircle size={30} className="text-violet-700" />
+
               <h1 className="text-2xl font-bold text-gray-900">
                 Add New Product
               </h1>
@@ -105,6 +140,7 @@ function AddProductPage() {
             </p>
           </div>
 
+          {/* Error */}
           {error && (
             <p className="mb-5 rounded-lg bg-red-50 p-3 text-sm text-red-600">
               {error}
@@ -113,6 +149,7 @@ function AddProductPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
 
+            {/* Product Name */}
             <div>
               <label
                 htmlFor="title"
@@ -120,6 +157,7 @@ function AddProductPage() {
               >
                 Product Name *
               </label>
+
               <input
                 id="title"
                 name="title"
@@ -132,6 +170,7 @@ function AddProductPage() {
               />
             </div>
 
+            {/* Price */}
             <div>
               <label
                 htmlFor="price"
@@ -139,6 +178,7 @@ function AddProductPage() {
               >
                 Price *
               </label>
+
               <input
                 id="price"
                 name="price"
@@ -153,6 +193,7 @@ function AddProductPage() {
               />
             </div>
 
+            {/* Category */}
             <div>
               <label
                 htmlFor="category"
@@ -160,6 +201,7 @@ function AddProductPage() {
               >
                 Category *
               </label>
+
               <select
                 id="category"
                 name="category"
@@ -176,6 +218,30 @@ function AddProductPage() {
               </select>
             </div>
 
+            {/* Stock */}
+            <div>
+              <label
+                htmlFor="stock"
+                className="mb-2 block font-medium text-gray-700"
+              >
+                Available Stock *
+              </label>
+
+              <input
+                id="stock"
+                name="stock"
+                type="number"
+                min="0"
+                step="1"
+                value={formData.stock}
+                onChange={handleChange}
+                placeholder="Enter available quantity"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-violet-600"
+                required
+              />
+            </div>
+
+            {/* Image URL - kept as requested */}
             <div>
               <label
                 htmlFor="image"
@@ -183,6 +249,7 @@ function AddProductPage() {
               >
                 Image URL
               </label>
+
               <input
                 id="image"
                 name="image"
@@ -192,8 +259,33 @@ function AddProductPage() {
                 placeholder="https://example.com/product.jpg"
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-violet-600"
               />
+
+              <p className="mt-2 text-xs text-gray-400">
+                Paste an image URL to display the product image.
+              </p>
+
+              {formData.image && (
+                <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-4">
+                  <p className="mb-2 text-sm font-medium text-gray-600">
+                    Image Preview
+                  </p>
+
+                  <img
+                    src={formData.image}
+                    alt="Product preview"
+                    className="h-48 w-full rounded-lg object-contain"
+                    onError={(event) => {
+                      event.currentTarget.style.display = "none";
+                    }}
+                    onLoad={(event) => {
+                      event.currentTarget.style.display = "block";
+                    }}
+                  />
+                </div>
+              )}
             </div>
 
+            {/* Description */}
             <div>
               <label
                 htmlFor="description"
@@ -201,6 +293,7 @@ function AddProductPage() {
               >
                 Description *
               </label>
+
               <textarea
                 id="description"
                 name="description"
@@ -213,6 +306,7 @@ function AddProductPage() {
               />
             </div>
 
+            {/* Submit */}
             <button
               type="submit"
               disabled={loading}

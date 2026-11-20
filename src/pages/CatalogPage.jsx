@@ -76,13 +76,12 @@ export default function CatalogPage() {
   const Navigation = () => (
     <header className="sticky top-0 z-50 border-b border-gray-100 bg-white shadow-sm">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-
         {/* Logo */}
         <Link
           to="/"
           className="text-2xl font-extrabold tracking-tight text-violet-700"
         >
-          BestBuy<span className="text-gray-900">.</span>
+          ShopFront<span className="text-gray-900">.</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -185,7 +184,7 @@ export default function CatalogPage() {
       <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 sm:flex-row">
         <div>
           <Link to="/" className="text-2xl font-extrabold">
-            BestBuy<span className="text-violet-400">.</span>
+            ShopFront<span className="text-violet-400">.</span>
           </Link>
 
           <p className="mt-2 text-sm text-gray-400">
@@ -213,7 +212,7 @@ export default function CatalogPage() {
       </div>
 
       <div className="mx-auto mt-8 max-w-7xl border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} BestBuy. All rights reserved.
+        © {new Date().getFullYear()} ShopFront. All rights reserved.
       </div>
     </footer>
   );
@@ -262,7 +261,7 @@ export default function CatalogPage() {
       <section className="bg-gradient-to-r from-violet-900 to-violet-600 text-white">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <span className="mb-5 inline-block rounded-full bg-white/20 px-4 py-2 text-sm font-semibold">
-            BestBuy Collection
+            ShopFront Collection
           </span>
 
           <h1 className="text-4xl font-extrabold tracking-tight md:text-5xl">
@@ -284,7 +283,6 @@ export default function CatalogPage() {
       <section className="bg-gray-50 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[250px_minmax(0,1fr)]">
-
             {/* Sidebar */}
             <aside className="h-fit rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
               <div className="mb-6 flex items-center justify-between">

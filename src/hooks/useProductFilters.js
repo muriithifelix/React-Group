@@ -9,13 +9,21 @@ export default function useProductFilters(products = []) {
     const safeProducts = Array.isArray(products) ? products : [];
 
     return safeProducts.filter((product) => {
-      const matchesSearch = (product.name || "")
+      const productName = product.name || product.title || "";
+
+      const matchesSearch = [
+        productName,
+        product.category || "",
+        product.description || "",
+      ]
+        .join(" ")
         .toLowerCase()
-        .includes(search.toLowerCase());
+        .includes(search.trim().toLowerCase());
 
       const matchesCategory =
         category === "All" ||
-        product.category === category;
+        (product.category || "").toLowerCase() ===
+          category.toLowerCase();
 
       return matchesSearch && matchesCategory;
     });
