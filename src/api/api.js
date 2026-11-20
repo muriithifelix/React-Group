@@ -1,5 +1,5 @@
 
-const API_URL = "https://4285e700-9356-421d-a7ca-eb4a4eb230d0.mock.pstmn.io/";
+const API_URL = "http://localhost:3000";
 
 // Get all products
 export const getProducts = async () => {

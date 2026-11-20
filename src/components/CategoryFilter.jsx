@@ -4,16 +4,21 @@ export default function CategoryFilter({
   selected = "All",
   onSelect,
 }) {
+  // Extract category names
   const categoryNames = categories
     .map((item) =>
       typeof item === "string"
         ? item
-        : item.name || item.title || item.category
+        : item?.name || item?.title || item?.category
     )
     .filter(Boolean);
 
-  const uniqueCategories = [...new Set(categoryNames)];
+  // Remove duplicates and sort alphabetically
+  const uniqueCategories = [
+    ...new Set(categoryNames),
+  ].sort((a, b) => a.localeCompare(b));
 
+  // Add All option
   const options = ["All", ...uniqueCategories];
 
   return (
@@ -22,7 +27,8 @@ export default function CategoryFilter({
         <button
           key={item}
           type="button"
-          onClick={() => onSelect(item)}
+          onClick={() => onSelect?.(item)}
+          aria-pressed={selected === item}
           className={`w-full rounded-lg px-4 py-3 text-left text-sm font-medium transition ${
             selected === item
               ? "bg-violet-700 text-white shadow-sm"
