@@ -1,3 +1,4 @@
+
 import { useMemo, useState } from "react";
 
 export default function useProductFilters(products = []) {
@@ -5,13 +6,26 @@ export default function useProductFilters(products = []) {
   const [category, setCategory] = useState("All");
 
   const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    return products.filter(
-      (p) =>
-        (category === "All" || p.category === category) &&
-        (!q || p.name.toLowerCase().includes(q))
-    );
+    const safeProducts = Array.isArray(products) ? products : [];
+
+    return safeProducts.filter((product) => {
+      const matchesSearch = (product.name || "")
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      const matchesCategory =
+        category === "All" ||
+        product.category === category;
+
+      return matchesSearch && matchesCategory;
+    });
   }, [products, search, category]);
 
-  return { filtered, search, setSearch, category, setCategory };
+  return {
+    filtered,
+    search,
+    setSearch,
+    category,
+    setCategory,
+  };
 }

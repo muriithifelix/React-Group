@@ -1,19 +1,21 @@
-const BASE = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
-async function request(path, options = {}) {
-  const res = await fetch(`${BASE}${path}`, {
-    headers: { "Content-Type": "application/json" },
-    ...options,
-  });
-  if (!res.ok) throw new Error(`Request failed (${res.status})`);
-  return res.status === 204 ? null : res.json();
-}
+const API_URL = "http://localhost:3000";
 
-export const getProducts = () => request("/products");
-export const getCategories = () => request("/categories");
-export const getProductById = (id) => request(`/products/${id}`);
-export const createProduct = (data) =>
-  request("/products", { method: "POST", body: JSON.stringify(data) });
-export const updateProduct = (id, data) =>
-  request(`/products/${id}`, { method: "PATCH", body: JSON.stringify(data) });
-export const deleteProduct = (id) => request(`/products/${id}`, { method: "DELETE" });
+export const getProducts = async () => {
+  const response = await fetch(`${API_URL}/products`);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+  }
+
+  return response.json();
+};
+export const getCategories = async () => {
+  const response = await fetch(`${API_URL}/categories`);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch categories");
+  }
+
+  return response.json();
+};

@@ -1,15 +1,77 @@
 {
-  "categories": [
-    { "id": 1, "name": "Kitchen" },
-    { "id": 2, "name": "Audio" },
-    { "id": 3, "name": "Workspace" }
-  ],
   "products": [
-    { "id": 1, "name": "Ceramic pour-over set", "price": 38, "category": "Kitchen", "image": "https://picsum.photos/seed/pourover/600/600", "description": "Dripper, carafe and two cups in matte glazed ceramic.", "stock": 14 },
-    { "id": 2, "name": "Cast iron skillet, 26 cm", "price": 52, "category": "Kitchen", "image": "https://picsum.photos/seed/skillet/600/600", "description": "Pre-seasoned skillet that goes from stovetop to oven.", "stock": 6 },
-    { "id": 3, "name": "Wireless over-ear headphones", "price": 129, "category": "Audio", "image": "https://picsum.photos/seed/headphones/600/600", "description": "40-hour battery, active noise cancelling and a soft carry case.", "stock": 9 },
-    { "id": 4, "name": "Bookshelf speaker pair", "price": 210, "category": "Audio", "image": "https://picsum.photos/seed/speaker/600/600", "description": "Compact two-way speakers with a warm, even sound.", "stock": 0 },
-    { "id": 5, "name": "Standing desk mat", "price": 44, "category": "Workspace", "image": "https://picsum.photos/seed/deskmat/600/600", "description": "Anti-fatigue mat with a non-slip base.", "stock": 22 },
-    { "id": 6, "name": "Adjustable monitor arm", "price": 79, "category": "Workspace", "image": "https://picsum.photos/seed/monitorarm/600/600", "description": "Gas-spring arm for screens up to 32 inches.", "stock": 11 }
-  ]
+    {
+      "id": 1,
+      "name": "Trail Runner Backpack 20L",
+      "category": "Bags",
+      "price": 59,
+      "stock": 12,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5ykzEascF1oo6wIvtf0r803v4Dw_tAoIvcVZQ7fiHmg&s",
+      "description": "Light, water-resistant daypack with a padded laptop sleeve and hip belt."
+    },
+    {
+      "id": 2,
+      "name": "Insulated Steel Bottle",
+      "category": "Kitchen",
+      "price": 24,
+      "stock": 40,
+      "image": "https://titanjet.co.za/wp-content/uploads/2023/04/SB8001-F.jpg",
+      "description": "Keeps drinks cold for 24 hours or hot for 12. Fits most cup holders."
+    },
+    {
+      "id": 3,
+      "name": "Wireless Over-Ear Headphones",
+      "category": "Electronics",
+      "price": 129,
+      "stock": 8,
+      "image": "https://m.media-amazon.com/images/I/51JNhjr4McL._AC_UL320_.jpg",
+      "description": "Active noise cancelling, 35-hour battery, USB-C fast charge."
+    },
+    {
+      "id": 4,
+      "name": "Cotton Everyday Tee",
+      "category": "Clothing",
+      "price": 18,
+      "stock": 60,
+      "image": "https://cdn.shopify.com/s/files/1/1181/5370/products/9005-WHITE-MODEL-MEN-SUPIMA-COTTON-TSHIRT-03-crop_480x480.jpg?v=1668009787",
+      "description": "Midweight organic cotton in a relaxed fit. Machine washable."
+    },
+    {
+      "id": 5,
+      "name": "Ceramic Pour-Over Set",
+      "category": "Kitchen",
+      "price": 42,
+      "stock": 15,
+      "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSPxbLMh0WBmF7u29kQsGPtPumSNnP-5Wl5ZWz_xIyYA&s",
+      "description": "Dripper, server and two cups. Makes clean, bright coffee."
+    },
+    {
+      "id": 6,
+      "name": "Portable Bluetooth Speaker",
+      "category": "Electronics",
+      "price": 79,
+      "stock": 0,
+      "image": "https://m.media-amazon.com/images/I/71OAC2L15TL._AC_UL320_.jpg",
+      "description": "Waterproof speaker with 360-degree sound and 15-hour playtime."
+    },
+    {
+      "id": 7,
+      "name": "Canvas Weekender Bag",
+      "category": "Bags",
+      "price": 85,
+      "stock": 6,
+      "image": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRn1HYAkVdv2CLHBZqS3vV-kg-6Yg1mTNMDGm3xJ_P280N_ffFQ",
+      "description": "Waxed canvas with leather handles and a shoe compartment."
+    },
+    {
+      "id": 8,
+      "name": "Quilted Winter Jacket",
+      "category": "Clothing",
+      "price": 110,
+      "stock": 10,
+      "image": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSrp-BFGOSSUw3Li04F_IC9KLVig2lQmKZsfPGuHfDrYgTM5_ay",
+      "description": "Recycled-fill insulation, packable into its own pocket."
+    }
+  ],
+  "orders": []
 }
