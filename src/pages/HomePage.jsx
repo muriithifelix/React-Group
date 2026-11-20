@@ -10,6 +10,7 @@ import {
   Headphones,
   LoaderCircle,
 } from "lucide-react";
+
 import ProductCard from "../components/ProductCard";
 
 const API_URL = "http://localhost:3000/products";
@@ -49,7 +50,9 @@ function HomePage() {
         setProducts(Array.isArray(data) ? data : []);
       } catch (err) {
         if (err.name !== "AbortError") {
-          setError("Unable to load products. Please check your server.");
+          setError(
+            "Unable to load products. Please check your server."
+          );
         }
       } finally {
         if (!controller.signal.aborted) {
@@ -67,45 +70,63 @@ function HomePage() {
     event.preventDefault();
 
     if (search.trim()) {
-      navigate(`/catalog?search=${encodeURIComponent(search.trim())}`);
+      navigate(
+        `/catalog?search=${encodeURIComponent(search.trim())}`
+      );
     }
   };
 
   const handleCategoryClick = (category) => {
-    navigate(`/catalog?category=${encodeURIComponent(category)}`);
+    navigate(
+      `/catalog?category=${encodeURIComponent(category)}`
+    );
   };
 
   const featuredProducts = products.slice(0, 8);
 
   return (
     <div className="min-h-screen bg-white">
+
       {/* Navigation */}
-      <header className="sticky top-0 z-50 border-b bg-white shadow-sm">
+      <header className="sticky top-0 z-50 border-b border-gray-100 bg-white shadow-sm">
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-          <Link to="/" className="text-2xl font-extrabold text-violet-700">
-            BestBuy<span className="text-gray-900">.</span>
+
+          {/* Logo */}
+          <Link
+            to="/"
+            className="text-2xl font-extrabold text-violet-700"
+          >
+            ShopFront<span className="text-gray-900">.</span>
           </Link>
 
+          {/* Desktop Navigation */}
           <div className="hidden items-center gap-8 md:flex">
-            <Link to="/" className="font-medium hover:text-violet-700">
+            <Link
+              to="/"
+              className="font-medium text-gray-700 transition hover:text-violet-700"
+            >
               Home
             </Link>
 
-            <Link to="/catalog" className="font-medium hover:text-violet-700">
+            <Link
+              to="/catalog"
+              className="font-medium text-gray-700 transition hover:text-violet-700"
+            >
               Shop
             </Link>
 
             <Link
               to="/add-product"
-              className="font-medium hover:text-violet-700"
+              className="font-medium text-gray-700 transition hover:text-violet-700"
             >
               Add Product
             </Link>
           </div>
 
+          {/* Cart */}
           <Link
             to="/cart"
-            className="rounded-full bg-violet-50 p-3 text-violet-700"
+            className="rounded-full bg-violet-50 p-3 text-violet-700 transition hover:bg-violet-100"
             aria-label="Shopping cart"
           >
             <ShoppingCart size={22} />
@@ -113,12 +134,13 @@ function HomePage() {
         </nav>
       </header>
 
-      {/* Hero */}
+      {/* Hero Section */}
       <section className="bg-gradient-to-r from-violet-900 to-violet-600 text-white">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-20 md:grid-cols-2 md:py-28">
+
           <div>
             <span className="mb-5 inline-block rounded-full bg-white/20 px-4 py-2 text-sm font-semibold">
-              Welcome to BestBuy
+              Welcome to ShopFront
             </span>
 
             <h1 className="text-4xl font-extrabold leading-tight md:text-6xl">
@@ -129,8 +151,8 @@ function HomePage() {
             </h1>
 
             <p className="mt-6 max-w-lg text-lg leading-8 text-violet-100">
-              Discover amazing products, explore your favourite categories,
-              and enjoy a simple shopping experience.
+              Discover amazing products, explore your favourite
+              categories, and enjoy a simple shopping experience.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
@@ -138,7 +160,8 @@ function HomePage() {
                 to="/catalog"
                 className="flex items-center gap-2 rounded-xl bg-white px-6 py-3 font-bold text-violet-800 transition hover:bg-violet-100"
               >
-                Shop Now <ArrowRight size={18} />
+                Shop Now
+                <ArrowRight size={18} />
               </Link>
 
               <Link
@@ -155,10 +178,11 @@ function HomePage() {
               🛍️
             </div>
           </div>
+
         </div>
       </section>
 
-      {/* Search */}
+      {/* Search Section */}
       <section className="mx-auto max-w-3xl px-4 py-10">
         <form
           onSubmit={handleSearch}
@@ -170,22 +194,25 @@ function HomePage() {
             <input
               type="search"
               value={search}
-              onChange={(event) => setSearch(event.target.value)}
+              onChange={(event) =>
+                setSearch(event.target.value)
+              }
               placeholder="Search for products..."
               className="w-full py-4 outline-none"
+              aria-label="Search for products"
             />
           </div>
 
           <button
             type="submit"
-            className="bg-violet-700 px-6 font-semibold text-white hover:bg-violet-800"
+            className="bg-violet-700 px-6 font-semibold text-white transition hover:bg-violet-800"
           >
             Search
           </button>
         </form>
       </section>
 
-      {/* Categories */}
+      {/* Categories Section */}
       <section className="mx-auto max-w-7xl px-4 py-12">
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-bold text-gray-900">
@@ -201,10 +228,15 @@ function HomePage() {
           {categories.map((category) => (
             <button
               key={category.name}
-              onClick={() => handleCategoryClick(category.name)}
+              type="button"
+              onClick={() =>
+                handleCategoryClick(category.name)
+              }
               className="rounded-2xl border border-gray-100 bg-gray-50 p-7 text-center transition hover:-translate-y-1 hover:border-violet-300 hover:bg-violet-50"
             >
-              <span className="text-4xl">{category.emoji}</span>
+              <span className="text-4xl">
+                {category.emoji}
+              </span>
 
               <h3 className="mt-4 font-bold text-gray-800">
                 {category.name}
@@ -217,6 +249,7 @@ function HomePage() {
       {/* Featured Products */}
       <section className="bg-gray-50 px-4 py-16">
         <div className="mx-auto max-w-7xl">
+
           <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
             <div>
               <h2 className="text-3xl font-bold text-gray-900">
@@ -230,9 +263,10 @@ function HomePage() {
 
             <Link
               to="/catalog"
-              className="flex items-center gap-2 font-semibold text-violet-700 hover:text-violet-900"
+              className="flex items-center gap-2 font-semibold text-violet-700 transition hover:text-violet-900"
             >
-              View All <ArrowRight size={18} />
+              View All
+              <ArrowRight size={18} />
             </Link>
           </div>
 
@@ -254,17 +288,25 @@ function HomePage() {
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {featuredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                />
               ))}
             </div>
           )}
+
         </div>
       </section>
 
-      {/* Benefits */}
+      {/* Benefits Section */}
       <section className="mx-auto grid max-w-7xl gap-8 px-4 py-16 md:grid-cols-3">
+
         <div className="text-center">
-          <Truck size={38} className="mx-auto text-violet-700" />
+          <Truck
+            size={38}
+            className="mx-auto text-violet-700"
+          />
 
           <h3 className="mt-4 font-bold text-gray-900">
             Convenient Shopping
@@ -276,7 +318,10 @@ function HomePage() {
         </div>
 
         <div className="text-center">
-          <ShieldCheck size={38} className="mx-auto text-violet-700" />
+          <ShieldCheck
+            size={38}
+            className="mx-auto text-violet-700"
+          />
 
           <h3 className="mt-4 font-bold text-gray-900">
             Simple Experience
@@ -288,7 +333,10 @@ function HomePage() {
         </div>
 
         <div className="text-center">
-          <Headphones size={38} className="mx-auto text-violet-700" />
+          <Headphones
+            size={38}
+            className="mx-auto text-violet-700"
+          />
 
           <h3 className="mt-4 font-bold text-gray-900">
             Customer Support
@@ -298,14 +346,19 @@ function HomePage() {
             We're here to help with your shopping needs.
           </p>
         </div>
+
       </section>
 
       {/* Footer */}
       <footer className="bg-gray-950 px-4 py-10 text-white">
         <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 sm:flex-row">
+
           <div>
-            <Link to="/" className="text-2xl font-extrabold">
-              BestBuy<span className="text-violet-400">.</span>
+            <Link
+              to="/"
+              className="text-2xl font-extrabold"
+            >
+              ShopFront<span className="text-violet-400">.</span>
             </Link>
 
             <p className="mt-2 text-sm text-gray-400">
@@ -314,28 +367,33 @@ function HomePage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-6 text-sm text-gray-300">
-            <Link to="/" className="hover:text-white">
+            <Link to="/" className="transition hover:text-violet-400">
               Home
             </Link>
 
-            <Link to="/catalog" className="hover:text-white">
+            <Link to="/catalog" className="transition hover:text-violet-400">
               Shop
             </Link>
 
-            <Link to="/cart" className="hover:text-white">
+            <Link to="/cart" className="transition hover:text-violet-400">
               Cart
             </Link>
 
-            <Link to="/add-product" className="hover:text-white">
+            <Link
+              to="/add-product"
+              className="transition hover:text-violet-400"
+            >
               Add Product
             </Link>
           </div>
+
         </div>
 
         <div className="mx-auto mt-8 max-w-7xl border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} BestBuy. All rights reserved.
+          © {new Date().getFullYear()} ShopFront. All rights reserved.
         </div>
       </footer>
+
     </div>
   );
 }

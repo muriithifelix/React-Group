@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 
-export default function useFetch(fetchFunction) {
+export default function useFetch(fetchFunction, dependencies = []) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ export default function useFetch(fetchFunction) {
         }
       } catch (err) {
         if (active) {
-          setError(err.message);
+          setError(err.message || "Something went wrong");
         }
       } finally {
         if (active) {
@@ -35,7 +35,7 @@ export default function useFetch(fetchFunction) {
     return () => {
       active = false;
     };
-  }, [fetchFunction]);
+  }, dependencies);
 
   return { data, loading, error };
 }
