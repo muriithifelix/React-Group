@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { useCart } from "../context/CartContext";
 
-import { getProducts, getCategories } from "../api/api";
+import { getProducts } from "../api/api";
 import useFetch from "../hooks/useFetch";
 import useProductFilters from "../hooks/useProductFilters";
 
@@ -15,9 +15,19 @@ import Loader from "../components/Loader";
 
 export default function CatalogPage() {
   const products = useFetch(getProducts);
-  const categories = useFetch(getCategories);
 
   const { cartCount } = useCart();
+
+  // Dynamically generate unique categories from products
+  const categories = useMemo(() => {
+    return [
+      ...new Set(
+        (products.data || [])
+          .map((product) => product.category)
+          .filter(Boolean)
+      ),
+    ].sort((a, b) => a.localeCompare(b));
+  }, [products.data]);
 
   const {
     filtered,
@@ -64,6 +74,7 @@ export default function CatalogPage() {
     category !== "All" ||
     sort !== "default";
 
+  // Clear all filters
   const clearFilters = () => {
     setSearch("");
     setCategory("All");
@@ -76,6 +87,7 @@ export default function CatalogPage() {
   const Navigation = () => (
     <header className="sticky top-0 z-50 border-b border-gray-100 bg-white shadow-sm">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+
         {/* Logo */}
         <Link
           to="/"
@@ -140,6 +152,7 @@ export default function CatalogPage() {
       {menuOpen && (
         <div className="border-t border-gray-100 bg-white px-4 py-4 shadow-md md:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-4">
+
             <Link
               to="/"
               onClick={() => setMenuOpen(false)}
@@ -172,6 +185,7 @@ export default function CatalogPage() {
               <ShoppingCart size={18} />
               Shopping Cart ({cartCount})
             </Link>
+
           </div>
         </div>
       )}
@@ -182,6 +196,7 @@ export default function CatalogPage() {
   const Footer = () => (
     <footer className="bg-gray-950 px-4 py-10 text-white sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 sm:flex-row">
+
         <div>
           <Link to="/" className="text-2xl font-extrabold">
             ShopFront<span className="text-violet-400">.</span>
@@ -209,6 +224,7 @@ export default function CatalogPage() {
             Add Product
           </Link>
         </div>
+
       </div>
 
       <div className="mx-auto mt-8 max-w-7xl border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
@@ -217,20 +233,22 @@ export default function CatalogPage() {
     </footer>
   );
 
-  // Loading
+  // Loading State
   if (products.loading) {
     return (
       <div className="flex min-h-screen flex-col bg-white">
         <Navigation />
+
         <main className="flex flex-1 items-center justify-center bg-gray-50">
           <Loader />
         </main>
+
         <Footer />
       </div>
     );
   }
 
-  // Error
+  // Error State
   if (products.error) {
     return (
       <div className="flex min-h-screen flex-col bg-white">
@@ -238,6 +256,7 @@ export default function CatalogPage() {
 
         <main className="flex flex-1 items-center justify-center bg-gray-50 px-4 py-16">
           <div className="w-full max-w-md rounded-2xl border border-red-200 bg-white p-8 text-center shadow-sm">
+
             <h2 className="mb-3 text-xl font-bold text-red-600">
               Something went wrong
             </h2>
@@ -245,6 +264,7 @@ export default function CatalogPage() {
             <p className="text-sm leading-6 text-gray-500">
               Couldn't load products. Please make sure your API server is running.
             </p>
+
           </div>
         </main>
 
@@ -255,11 +275,13 @@ export default function CatalogPage() {
 
   return (
     <div className="min-h-screen bg-white">
+
       <Navigation />
 
       {/* Catalog Hero */}
       <section className="bg-gradient-to-r from-violet-900 to-violet-600 text-white">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+
           <span className="mb-5 inline-block rounded-full bg-white/20 px-4 py-2 text-sm font-semibold">
             ShopFront Collection
           </span>
@@ -276,15 +298,19 @@ export default function CatalogPage() {
           <p className="mt-6 text-sm font-medium text-violet-200">
             Explore {allProducts.length} available products
           </p>
+
         </div>
       </section>
 
       {/* Catalog */}
       <section className="bg-gray-50 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[250px_minmax(0,1fr)]">
+
             {/* Sidebar */}
             <aside className="h-fit rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+
               <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-xl font-bold text-gray-900">
                   Filters
@@ -313,34 +339,33 @@ export default function CatalogPage() {
                 />
               </div>
 
-              {/* Categories */}
+              {/* Dynamic Categories */}
               <div>
                 <h3 className="mb-4 font-semibold text-gray-800">
                   Categories
                 </h3>
 
-                {categories.loading ? (
+                {products.loading ? (
                   <p className="text-sm text-gray-400">
                     Loading categories...
                   </p>
-                ) : categories.error ? (
-                  <p className="text-sm text-red-500">
-                    Unable to load categories.
-                  </p>
                 ) : (
                   <CategoryFilter
-                    categories={categories.data || []}
+                    categories={categories}
                     selected={category}
                     onSelect={setCategory}
                   />
                 )}
               </div>
+
             </aside>
 
             {/* Products */}
             <section className="min-w-0" aria-label="Product results">
+
               {/* Toolbar */}
               <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900">
                     Explore Products
@@ -355,6 +380,7 @@ export default function CatalogPage() {
                   </p>
                 </div>
 
+                {/* Sorting */}
                 <div className="flex items-center gap-3">
                   <label
                     htmlFor="sort"
@@ -375,20 +401,28 @@ export default function CatalogPage() {
                     <option value="name">Name: A to Z</option>
                   </select>
                 </div>
+
               </div>
 
               {/* Product Grid */}
               {sortedProducts.length > 0 ? (
+
                 <div className="grid grid-cols-2 gap-5 md:grid-cols-3 md:gap-6 xl:grid-cols-4">
+
                   {sortedProducts.map((product) => (
                     <ProductCard
                       key={product.id}
                       product={product}
                     />
                   ))}
+
                 </div>
+
               ) : (
+
+                /* Empty State */
                 <div className="rounded-2xl border border-dashed border-violet-200 bg-white px-6 py-20 text-center">
+
                   <div className="mb-5 text-5xl">
                     🔍
                   </div>
@@ -416,14 +450,18 @@ export default function CatalogPage() {
                       Clear filters
                     </button>
                   )}
+
                 </div>
+
               )}
+
             </section>
           </div>
         </div>
       </section>
 
       <Footer />
+
     </div>
   );
 }
